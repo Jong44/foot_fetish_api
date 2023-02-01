@@ -4,9 +4,9 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Brand;
+use App\Models\Kategori;
 
-class BrandController extends Controller
+class KategoriController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,14 +15,11 @@ class BrandController extends Controller
      */
     public function index()
     {
-        $brand = Brand::with('product')->get();
-        $brand->map(function($brand){
-            $brand->banner = asset('storage/'. $brand->banner);
-            $brand->logo = asset('storage/'. $brand->logo);
-            $brand->product->first()->image = asset('storage/'. $brand->product->first()->image);
-            return $brand;
+        $kategori = Kategori::with('product')->get();
+        $kategori->map(function($kategori){
+            $kategori->product->first()->image = asset('storage/' .$kategori->product->first()->image);
         });
-        return $brand;
+        return $kategori;
     }
 
     /**
@@ -43,20 +40,15 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
-        $image_banner = $request->file('banner')->store('brand/banner','public');
-        $image_logo = $request->file('logo')->store('brand/logo','public');
-        $brand = Brand::create([
-            "brand" => $request->brand,
-            "nama_brand" => $request->nama_brand,
-            "banner" => $image_banner,
-            "logo" => $image_logo
+        $kategori = Kategori::create([
+            "nama_kategori" => $request->nama_kategori
         ]);
 
         return response()->json(
             [
                 'success' => 200,
-                'message' => "Data brand berhasil disimpan",
-                'data' => $brand
+                'message' => "Data kategori berhasil disimpan",
+                'data' => $kategori
             ], 
             200
         );

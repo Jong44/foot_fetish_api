@@ -15,6 +15,11 @@ class CreateFotoProduksTable extends Migration
     {
         Schema::create('foto__produks', function (Blueprint $table) {
             $table->id();
+            $table->integer('id_product');
+            $table->string('foto1');
+            $table->string('foto2');
+            $table->string('foto3');
+            $table->string('foto4');
             $table->timestamps();
         });
     }
